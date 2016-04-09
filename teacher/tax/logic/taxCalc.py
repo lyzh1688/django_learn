@@ -2,8 +2,10 @@ class TaxCalc(object):
 
     FullTimeThrethold = 800
     NoFullTimeThretholdLv1 = 3500
-    NoFullTimeThretholdLv2 = 4800
-    NoFullTimeThretholdLv3 = 6600
+    NoFullTimeThretholdLv2 = 5000
+    NoFullTimeThretholdLv3 = 8000
+    NoFullTimeThretholdLv4 = 12500
+    NoFullTimeThretholdLv5 = 38500
     def __init__(self):
         pass
 
@@ -20,6 +22,8 @@ class TaxCalc(object):
             elif TaxCalc.NoFullTimeThretholdLv1 < cost <= TaxCalc.NoFullTimeThretholdLv2:
                 return (cost - TaxCalc.NoFullTimeThretholdLv1) / 0.97 * 0.03
             elif TaxCalc.NoFullTimeThretholdLv2 < cost <= TaxCalc.NoFullTimeThretholdLv3:
-                return (cost - TaxCalc.NoFullTimeThretholdLv2)/ 0.9 * 0.1 - 105
+                return (cost - TaxCalc.NoFullTimeThretholdLv1)/ 0.9 * 0.1 - 105
+            elif TaxCalc.NoFullTimeThretholdLv3 < cost <= TaxCalc.NoFullTimeThretholdLv4:
+                return (cost - TaxCalc.NoFullTimeThretholdLv1)/0.8 * 0.2 - 555
             else:
-                return (cost - TaxCalc.NoFullTimeThretholdLv3)/0.8 * 0.2 - 555
+                return (cost - TaxCalc.NoFullTimeThretholdLv1)/0.75 * 0.25 - 1005
