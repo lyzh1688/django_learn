@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="span9">
+
+	<h1 class="page-title">
+		<i class="icon-th-large"></i>
+		教师新增
+	</h1>
+	<div class="tab-pane active" id="1">
+    <form action="" class="form-horizontal" method="post">{% csrf_token %}
+		<fieldset>
+
+			<div class="control-group">
+				<label class="control-label">姓名</label>
+				<div class="controls">
+					<div>{{ form.name }}</div>
+				</div> <!-- /controls -->
+			</div> <!-- /control-group -->
+
+
+			<div class="control-group">
+				<label class="control-label">是否全职</label>
+				<div class="controls">
+					<div>{{ form.isFullTime }}</div>
+				</div> <!-- /controls -->
+			</div> <!-- /control-group -->
+				<br />
+		</fieldset>
+
+			<div class="form-actions">
+				<input type="submit" class="btn btn-primary" value="保存" />
+				<button class="btn">取消</button>
+			</div> <!-- /form-actions -->
+    </form>
+</div>
+</div>
+<script>
+	$('#teacher').attr("class", "active");
+</script>
+
+{% endblock %}

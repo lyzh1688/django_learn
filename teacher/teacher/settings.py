@@ -23,10 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#ig8&_9y7*3j@k!(ik9fm6ply=vn%@9u&jbgd6+(7w1*wz2@o4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+LOGIN_URL = '/login/'
 
 # Application definition
 
@@ -126,8 +126,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
 
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "common_static"),
-    '/path/to/others/static/',
+    os.path.join(BASE_DIR, 'tax/static/').replace('\\','/') ,
+    #'C:/Project/repo/django_learn/teacher/tax/static/'.replace('\\','/') ,
+
 )
 
 STATICFILES_FINDERS = (

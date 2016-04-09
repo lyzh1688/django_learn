@@ -17,12 +17,35 @@ from django.conf.urls import url
 from django.contrib import admin
 from tax import views as tax_views
 from tax.tax_views import teacherView
+from tax.tax_views import courseView
+from tax.tax_views import recordView
+from tax.tax_views import taxView
+from django.contrib.auth.decorators import login_required
+import settings
 urlpatterns = [
-    url(r'^success/$', tax_views.success,name = 'success'),
-    url(r'^error/$', tax_views.error,name = 'error'),
-    url(r'^teacher/add/$',teacherView.AddTeacher.as_view(), name = 'addteacher'),
-    url(r'^hello/',tax_views.hello),
-    url(r'^admin/', admin.site.urls),
-    url(r'^test/$', tax_views.test),
 
+    ###################################################
+    url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':  settings.STATIC_ROOT ,'show_indexes': True} ) ,
+    url(r'^admin/', admin.site.urls),
+    url(r'^teacher/$', login_required(teacherView.ListTeacher.as_view()), name = 'teacherlist'),
+    url(r'^teacher/add/$', login_required(teacherView.AddTeacher.as_view()), name = 'teacheradd'),
+    url(r'^teacher/edit/(?P<pk>\w+)/$', login_required(teacherView.UpdateTeacher.as_view()),name = 'teacheredit'),
+    url(r'^teacher/del/$', tax_views.DelTeacher,name = 'teacherdel'),
+    url(r'^course/$', tax_views.CourseDetail, name = 'course'),
+    #url(r'^course/detail/(?P<id>\w+)/$', courseView.DetailCourse.as_view(),name = 'coursedetail'),
+
+    url(r'^course/detail/(?P<id>\w+)/$', login_required(courseView.ListClassTeacher.as_view()),name = 'coursedetail'),
+    url(r'^course/edit/detail/(?P<id>\w+)/$', login_required(courseView.DetailCourse.as_view()),name = 'coursedetailedit'),
+    url(r'^course/edit/fee/$', tax_views.EditFee,name = 'courseeditfee'),
+
+    url(r'^course/edit/submit/$', tax_views.FeeFormSubmit,name = 'coursedetaileditsubmit'),
+    url(r'^class/del/$', tax_views.DelClass,name = 'classdel'),
+
+    url(r'^record/$', login_required(recordView.RecordIndex.as_view()),name = 'record'),
+    url(r'^record/detail/(?P<id>\w+)/(?P<date>\w+)$', login_required(recordView.RecordDetail.as_view()),name = 'recorddetail'),
+    url(r'^record/settimes/$', tax_views.SetTimes,name = 'settimes$'),
+    url(r'^tax/$', login_required(taxView.TeacherTaxView.as_view()),name = 'tax'),
+    url(r'^tax/(?P<date>\w+)/$', login_required(taxView.TeacherTaxView.as_view()),name = 'taxwithdate'),
+
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
 ]

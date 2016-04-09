@@ -1,21 +1,18 @@
-function onLoad()
-{
-    //alert('init');
-}
+/**
+ * Created by Yuezhi.Liu on 2016/4/1.
+ */
 
-function ClickHandle()
+function DeleteHandle(teacher_id)
 {
-    alert('ajax');
     var aj = $.ajax( {
-        url:'/test',
+        url:'/teacher/del/',
         data:{
-            name :'Jennifer'
+            teacher_id :teacher_id
         },
          type:'get',
-         cache:false,
          dataType:'json',
          success:function(data) {
-             $("p").text(data.name);
+             $(window.location).attr('href', '/teacher');
           },
           error : function() {
                // view("异常！");
