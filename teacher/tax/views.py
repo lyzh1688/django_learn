@@ -1,11 +1,15 @@
 #coding=utf-8
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from tax.tax_forms.feeForm import *
 from django.db.models import Q
-
+from django.utils.http import urlquote
 from tax.models import *
 from django.contrib.auth.decorators import login_required
+import re
+from django.utils.encoding import force_unicode,smart_unicode, smart_str
+from tax.logic.excelExport import TaxExcel
+import time
 # Create your views here.
 def hello(request):
     name = request.GET['name']
@@ -97,3 +101,20 @@ def FeeFormSubmit(request):
         print 'no post'
     return render(request,'course.html')
 
+def ExcelExport(request):
+    date = request.GET.get('date')
+    if not date:
+        date = time.strftime('%Y%m',time.localtime(time.time()))
+    fname = u'兼课费' + date + '.xls'
+    agent=request.META.get('HTTP_USER_AGENT')
+    print agent
+    if agent and re.search('MSIE',agent):
+        response =HttpResponse(content_type="application/vnd.ms-excel") #解决ie不能下载的问题
+        response['Content-Disposition'] ='attachment; filename=%s' % urlquote(fname) #解决文件名乱码/不显示的问题
+    else:
+        response =HttpResponse(content_type="application/ms-excel")#解决ie不能下载的问题
+        response['Content-Disposition'] ='attachment; filename=%s' % smart_str(fname) #解决文件名乱码/不显示的问题
+    excel = TaxExcel(date)
+    wb = excel.genExcel()
+    wb.save(response)
+    return response

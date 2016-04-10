@@ -43,9 +43,10 @@ urlpatterns = [
 
     url(r'^record/$', login_required(recordView.RecordIndex.as_view()),name = 'record'),
     url(r'^record/detail/(?P<id>\w+)/(?P<date>\w+)$', login_required(recordView.RecordDetail.as_view()),name = 'recorddetail'),
-    url(r'^record/settimes/$', tax_views.SetTimes,name = 'settimes$'),
+    url(r'^record/settimes/$', tax_views.SetTimes,name = 'settimes'),
     url(r'^tax/$', login_required(taxView.TeacherTaxView.as_view()),name = 'tax'),
     url(r'^tax/(?P<date>\w+)/$', login_required(taxView.TeacherTaxView.as_view()),name = 'taxwithdate'),
+    url(r'^download/$', tax_views.ExcelExport,name = 'excelExport'),
 
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
 ]
