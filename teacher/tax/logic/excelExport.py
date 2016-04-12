@@ -42,7 +42,7 @@ class TaxExcel():
                 dic['name'] = obj[1]
                 dic['isFullTime'] = obj[2]
                 dic['cost'] = obj[3]
-                dic['tax'] = TaxCalc.taxCalc(dic['isFullTime'],dic['cost'])
+                dic['tax'] = round(TaxCalc.taxCalc(dic['isFullTime'],dic['cost']),2)
                 dic['realCost'] = dic['tax'] + dic['cost']
                 ws.write(i, 0, dic['name'])
                 ws.write(i, 1, dic['isFullTime'])

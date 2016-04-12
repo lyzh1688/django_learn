@@ -43,7 +43,7 @@
                         <td>{{ teacher.isFullTime|bool_trans }}</td>
                         <td>{{ teacher.fee }}</td>
                         <td ><a href="#"
-                                id="{{record.course_id}}_{{teacher.id}}_{{record.date}}"
+                                id="{{record.course_id}}_{{teacher.id}}_{{record.date}}_{{teacher.fee}}"
                                 name="times"
                                 data-placement="right">
                             {{teacher.times}}

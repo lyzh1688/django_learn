@@ -31,7 +31,7 @@ class ListClassTeacher(ListView):
         course_id = self.kwargs.get('id')
         try:
             sql = '''
-                  select t.id,t.name,t.isFullTime,c.fee
+                  select t.id,t.name,t.isFullTime,c.fee,c.id
                     from tax_teacher t,tax_class c
                     where c.course_id = %s
                     and c.teacher_id = t.id
@@ -48,6 +48,7 @@ class ListClassTeacher(ListView):
                 dic['name'] = obj[1]
                 dic['isFullTime'] = obj[2]
                 dic['fee'] = obj[3]
+                dic['class_id'] = obj[4]
                 classteacherlist.append(dic)
 
         except Model.DoesNotExist:
@@ -64,7 +65,9 @@ class DetailCourse(TemplateView):
         isshowall = self.request.GET.get('isshowall')
         context = super(DetailCourse, self).get_context_data(**kwargs)
         if name:
-            teacher_to_select = Teacher.objects.exclude(ClassTeacher__course_id=id).filter(Q(name__contains=name)&Q(status=1))
+            #teacher_to_select = Teacher.objects.exclude(ClassTeacher__course_id=id).filter(Q(name__contains=name)&Q(status=1))
+            teacher_to_select = Teacher.objects.filter(Q(name__contains=name)&Q(status=1))
+
         else:
             if isshowall == '1':
                 teacher_to_select = Teacher.objects.exclude(ClassTeacher__course_id=id).filter(Q(status=1))

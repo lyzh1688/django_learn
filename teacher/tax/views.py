@@ -45,8 +45,9 @@ def SetTimes(request):
     course_id = request.GET['name'].split('_')[0]
     teacher_id = request.GET['name'].split('_')[1]
     date = request.GET['name'].split('_')[2]
+    fee = request.GET['name'].split('_')[3]
     times = request.GET['value']
-    clazz = Class.objects.get(Q(course_id=course_id)&Q(teacher_id=teacher_id))
+    clazz = Class.objects.get(Q(course_id=course_id)&Q(teacher_id=teacher_id)&Q(fee=fee))
     record,created = Record.objects.update_or_create(clazz=clazz,date=date,defaults={'times': times},)
     return JsonResponse({'Result':True})
 
@@ -69,10 +70,11 @@ def DelTeacher(request):
     return JsonResponse({'Result':True})
 @login_required
 def EditFee(request):
-    course_id = request.GET['name'].split('_')[0]
-    teacher_id = request.GET['name'].split('_')[1]
+    #course_id = request.GET['name'].split('_')[0]
+    #teacher_id = request.GET['name'].split('_')[1]
+    class_id = request.GET['name']
     fee = request.GET['value']
-    Class.objects.filter(Q(course_id=course_id),Q(teacher_id=teacher_id)).update(fee=fee)
+    Class.objects.filter(Q(id=class_id)).update(fee=fee)
     return JsonResponse({'Result':True})
 
 @login_required
